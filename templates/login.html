@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Login — MediPredict AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/main.css"/>
+</head>
+<body class="auth-body">
+<div class="auth-card fade-up">
+  <div class="auth-logo">
+    <div class="auth-logo-icon">⚕️</div>
+    <div class="auth-logo-title">MediPredict AI</div>
+    <div class="auth-logo-sub">AI-Based Virtual Doctor · 37 Diseases</div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="flash-{{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <div class="auth-title">Welcome back</div>
+  <div class="auth-sub">Sign in to your patient account</div>
+
+  <form method="POST">
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input type="email" name="email" class="form-input" placeholder="you@example.com" required autofocus/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <div style="position:relative">
+        <input type="password" name="password" id="pwd" class="form-input" placeholder="Enter password" required/>
+        <button type="button" onclick="togglePwd()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--t3);cursor:pointer;font-size:15px">👁</button>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign In →</button>
+  </form>
+
+  <div class="auth-divider"><span>or</span></div>
+
+  <!-- Demo account hint -->
+  <div class="alert alert-info" style="font-size:12px;text-align:center">
+    💡 New here? <a href="/register" style="color:#7DD3FC;font-weight:600">Create a free account</a> to save your consultations
+  </div>
+
+  <div class="auth-footer">
+    Don't have an account? <a href="/register">Register now</a>
+  </div>
+</div>
+<script>
+function togglePwd(){const p=document.getElementById('pwd');p.type=p.type==='password'?'text':'password';}
+</script>
+</body>
+</html>

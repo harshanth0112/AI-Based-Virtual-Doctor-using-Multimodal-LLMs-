@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — MediPredict{% endblock %}
+{% block content %}
+<div class="topbar fade-up">
+  <div>
+    <div class="page-title">Good day, {{ user.full_name.split()[0] }} 👋</div>
+    <div class="page-sub">Here's your health overview</div>
+  </div>
+  <a href="/diagnose" class="btn btn-primary btn-sm" style="width:auto">+ New Diagnosis</a>
+</div>
+
+<!-- Stats -->
+<div class="grid-4 fade-up-2" style="margin-bottom:24px">
+  {% for icon,num,label,color in [
+    ("🔬", stats.total_consultations, "Consultations", "#0EA5E9"),
+    ("⚠️", stats.critical, "High Risk Cases", "#EF4444"),
+    ("📅", stats.bookings, "Appointments", "#10B981"),
+    ("🦠", total_diseases, "Diseases Covered", "#8B5CF6"),
+  ] %}
+  <div class="stat-card">
+    <div class="stat-icon">{{ icon }}</div>
+    <div class="stat-num" style="background:linear-gradient(135deg,{{ color }},{{ color }}99);-webkit-background-clip:text">{{ num }}</div>
+    <div class="stat-label">{{ label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="grid-2 fade-up-3">
+  <!-- Recent consultations -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div class="card-title" style="margin-bottom:0">Recent Consultations</div>
+      <a href="/history" style="color:var(--blue-l);font-size:12px">View all →</a>
+    </div>
+    {% if recent %}
+      {% for c in recent %}
+      <div class="hist-card sev-{{ c.severity }}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <div>
+            <div style="font-family:var(--fh);font-weight:700;color:#F1F5F9;font-size:14px">{{ c.primary_diagnosis }}</div>
+            <div style="color:var(--t3);font-size:11px;margin-top:3px">{{ c.date }}</div>
+          </div>
+          <span class="badge badge-{{ c.severity }}">{{ c.severity.upper() }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div style="text-align:center;padding:32px 0;color:var(--t4)">
+        <div style="font-size:32px;margin-bottom:8px">📋</div>
+        <div style="font-size:14px">No consultations yet</div>
+        <a href="/diagnose" style="color:var(--blue-l);font-size:13px;margin-top:8px;display:block">Start your first diagnosis →</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Disease categories -->
+  <div class="card">
+    <div class="card-title">Disease Categories</div>
+    {% for cat, diseases in categories.items() %}
+    <div style="margin-bottom:14px">
+      <div style="font-size:13px;font-weight:600;color:#CBD5E1;margin-bottom:6px">{{ cat }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        {% for d in diseases %}
+        <span style="background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.18);
+          color:var(--t3);border-radius:20px;padding:2px 10px;font-size:11px">{{ d }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Patient info card -->
+{% if user.blood_group or user.allergies %}
+<div class="card fade-up-3" style="margin-top:20px">
+  <div class="card-title">Your Medical Info</div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap">
+    {% if user.blood_group %}
+    <div><div style="color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Blood Group</div>
+    <div style="color:var(--red);font-family:var(--fh);font-weight:700;font-size:20px">{{ user.blood_group }}</div></div>
+    {% endif %}
+    {% if user.allergies %}
+    <div><div style="color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Known Allergies</div>
+    <div style="color:#FCD34D;font-size:14px;margin-top:4px">⚠ {{ user.allergies }}</div></div>
+    {% endif %}
+    {% if user.dob %}
+    <div><div style="color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Date of Birth</div>
+    <div style="color:#CBD5E1;font-size:14px;margin-top:4px">{{ user.dob }}</div></div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

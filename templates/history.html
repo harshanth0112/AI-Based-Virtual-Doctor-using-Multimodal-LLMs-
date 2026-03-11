@@ -1,0 +1,52 @@
+{% extends "base.html" %}{% block title %}History — MediPredict{% endblock %}
+{% block content %}
+<div class="topbar fade-up">
+  <div><div class="page-title">My Consultations</div><div class="page-sub">{{ records|length }} total records saved to database</div></div>
+  {% if records %}<button class="btn btn-outline btn-sm" onclick="clearAll()" style="border-color:rgba(239,68,68,.4);color:#F87171">🗑 Clear All</button>{% endif %}
+</div>
+{% if not records %}
+<div class="card fade-up-2" style="text-align:center;padding:56px 24px;max-width:500px">
+  <div style="font-size:44px;margin-bottom:14px">📋</div>
+  <div style="font-family:var(--fh);font-weight:700;color:#F1F5F9;font-size:18px;margin-bottom:8px">No records yet</div>
+  <p style="color:var(--t3);margin-bottom:20px">Complete a diagnosis to save records here.</p>
+  <a href="/diagnose" class="btn btn-primary" style="width:auto;display:inline-flex;padding:12px 28px">Start Diagnosis →</a>
+</div>
+{% else %}
+<div class="grid-4 fade-up-2" style="margin-bottom:24px">
+  {% for n,l,c in [(records|length,'Total','#0EA5E9'),
+    (records|selectattr('severity','in',['critical','high'])|list|length,'High Risk','#EF4444'),
+    (records|selectattr('severity','equalto','moderate')|list|length,'Moderate','#F59E0B'),
+    (records|selectattr('severity','equalto','low')|list|length,'Low Risk','#10B981')] %}
+  <div class="stat-card"><div class="stat-num" style="background:linear-gradient(135deg,{{ c }},{{ c }}88);-webkit-background-clip:text">{{ n }}</div><div class="stat-label">{{ l }}</div></div>
+  {% endfor %}
+</div>
+<div class="fade-up-3">
+  {% for r in records %}
+  <div class="hist-card sev-{{ r.severity }}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px">
+      <div>
+        <div style="font-family:var(--fh);font-weight:700;color:#F1F5F9;font-size:16px">{{ r.primary_diagnosis }}</div>
+        <div style="color:var(--t4);font-size:11px;margin-top:2px">{{ r.date }} · Age {{ r.age }} · {{ r.fever }}°C · HR {{ r.heart_rate }}</div>
+      </div>
+      <span class="badge badge-{{ r.severity }}">{{ r.severity.upper() }}</span>
+    </div>
+    <div style="color:var(--t3);font-size:13px;line-height:1.5;margin-bottom:10px;padding:10px;background:rgba(255,255,255,.02);border-radius:8px">{{ r.symptom_text[:180] }}{% if r.symptom_text|length > 180 %}...{% endif %}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      {% for c in r.conditions[:4] %}
+      <span style="background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);color:#7DD3FC;border-radius:20px;padding:2px 10px;font-size:11px">{{ c.name }} {{ c.probability }}%</span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+async function clearAll(){
+  if(!confirm('Delete all consultation history permanently?')) return;
+  await fetch('/api/history/clear',{method:'POST'});
+  location.reload();
+}
+</script>
+{% endblock %}

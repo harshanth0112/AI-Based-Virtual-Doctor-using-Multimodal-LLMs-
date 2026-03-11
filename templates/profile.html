@@ -1,0 +1,60 @@
+{% extends "base.html" %}{% block title %}Profile — MediPredict{% endblock %}
+{% block content %}
+<div class="topbar fade-up"><div><div class="page-title">My Profile</div><div class="page-sub">Manage your patient information</div></div></div>
+<div class="grid-2 fade-up-2">
+  <div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">Account Info</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+        <div style="width:60px;height:60px;border-radius:50%;background:rgba(14,165,233,.15);border:2px solid rgba(14,165,233,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:800;font-size:22px;color:#7DD3FC;flex-shrink:0">{{ user.full_name[0].upper() }}</div>
+        <div>
+          <div style="font-family:var(--fh);font-weight:700;color:#F1F5F9;font-size:17px">{{ user.full_name }}</div>
+          <div style="color:var(--t3);font-size:13px">{{ user.email }}</div>
+          <div style="color:var(--t4);font-size:11px;margin-top:2px">Member since {{ user.created_at[:10] if user.created_at else 'N/A' }}</div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:8px">
+        <div class="stat-card" style="padding:14px"><div style="color:var(--blue-l);font-family:var(--fh);font-weight:800;font-size:22px">{{ consultation_count }}</div><div class="stat-label">Consultations</div></div>
+        <div class="stat-card" style="padding:14px"><div style="color:var(--green);font-family:var(--fh);font-weight:800;font-size:22px">{{ booking_count }}</div><div class="stat-label">Bookings</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Medical Summary</div>
+      {% for icon,label,val,color in [("🩸","Blood Group",user.blood_group or "Not set","#EF4444"),("⚠️","Allergies",user.allergies or "None","#F59E0B"),("📅","Date of Birth",user.dob or "Not set","#0EA5E9"),("⚧","Gender",user.gender or "Not set","#8B5CF6")] %}
+      <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--t3);font-size:13px">{{ icon }} {{ label }}</span>
+        <span style="color:{{ color }};font-size:13px;font-weight:600">{{ val }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card fade-up-3">
+    <div class="card-title">Edit Profile</div>
+    <form method="POST">
+      <div class="form-group"><label class="form-label">Full Name</label><input type="text" name="full_name" class="form-input" value="{{ user.full_name }}" required/></div>
+      <div class="form-grid-2">
+        <div class="form-group"><label class="form-label">Phone</label><input type="tel" name="phone" class="form-input" value="{{ user.phone or '' }}"/></div>
+        <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" name="dob" class="form-input" value="{{ user.dob or '' }}"/></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group"><label class="form-label">Gender</label>
+          <select name="gender" class="form-input">
+            <option value="">Select</option>
+            {% for g in ["Male","Female","Other"] %}<option {% if user.gender==g %}selected{% endif %}>{{ g }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Blood Group</label>
+          <select name="blood_group" class="form-input">
+            <option value="">Unknown</option>
+            {% for bg in ["A+","A-","B+","B-","AB+","AB-","O+","O-"] %}<option {% if user.blood_group==bg %}selected{% endif %}>{{ bg }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Known Allergies</label><input type="text" name="allergies" class="form-input" value="{{ user.allergies or '' }}" placeholder="e.g. Penicillin, Sulfa drugs"/></div>
+      <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

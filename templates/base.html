@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{% block title %}MediPredict AI{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/main.css"/>
+  {% block head %}{% endblock %}
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="font-size:24px;margin-bottom:4px">⚕️</div>
+      <div class="sidebar-logo-text">MediPredict AI</div>
+      <div class="sidebar-logo-sub">Virtual Doctor System</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">Main</div>
+      <a href="/dashboard" class="nav-item {% if request.path=='/dashboard' %}active{% endif %}">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a href="/diagnose" class="nav-item {% if request.path=='/diagnose' %}active{% endif %}">
+        <span class="nav-icon">🔬</span> Diagnose
+      </a>
+
+      <div class="nav-section">Records</div>
+      <a href="/history" class="nav-item {% if request.path=='/history' %}active{% endif %}">
+        <span class="nav-icon">📋</span> My History
+      </a>
+      <a href="/booking" class="nav-item {% if request.path=='/booking' %}active{% endif %}">
+        <span class="nav-icon">📅</span> Book Doctor
+      </a>
+      <a href="/profile" class="nav-item {% if request.path=='/profile' %}active{% endif %}">
+        <span class="nav-icon">👤</span> Profile
+      </a>
+
+      <div class="nav-section">Help</div>
+      <a href="/emergency" class="nav-item {% if request.path=='/emergency' %}active{% endif %}">
+        <span class="nav-icon nav-emergency">🚨</span> <span style="color:#EF4444">Emergency</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:50%;background:rgba(14,165,233,0.15);
+          border:1px solid rgba(14,165,233,0.3);display:flex;align-items:center;
+          justify-content:center;font-weight:700;color:#7DD3FC;font-size:13px;flex-shrink:0">
+          {{ session.user_name[0].upper() if session.user_name else '?' }}
+        </div>
+        <div style="min-width:0;flex:1">
+          <div class="sidebar-user-name">{{ session.user_name or 'User' }}</div>
+          <a href="/logout" style="color:var(--t4);font-size:11px">Logout →</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="flash-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+<div id="toast"></div>
+<script src="/static/js/main.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
