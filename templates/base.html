@@ -26,6 +26,9 @@
       <a href="/diagnose" class="nav-item {% if request.path=='/diagnose' %}active{% endif %}">
         <span class="nav-icon">🔬</span> Diagnose
       </a>
+      <a href="/chat" class="nav-item {% if request.path=='/chat' %}active{% endif %}">
+        <span class="nav-icon">💬</span> AI Assistant
+      </a>
 
       <div class="nav-section">Records</div>
       <a href="/history" class="nav-item {% if request.path=='/history' %}active{% endif %}">
@@ -48,7 +51,7 @@
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:34px;height:34px;border-radius:50%;background:rgba(14,165,233,0.15);
           border:1px solid rgba(14,165,233,0.3);display:flex;align-items:center;
-          justify-content:center;font-weight:700;color:#7DD3FC;font-size:13px;flex-shrink:0">
+          justify-content:center;font-weight:700;color:var(--blue);font-size:13px;flex-shrink:0">
           {{ session.user_name[0].upper() if session.user_name else '?' }}
         </div>
         <div style="min-width:0;flex:1">

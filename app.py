@@ -166,6 +166,21 @@ def api_predict():
     text     = d.get("symptom_text","").strip()
     if not text:
         return jsonify({"error":"Please enter symptoms"}), 400
+
+    # ── Llama Prompt Guard Validation ──
+    try:
+        from groq import Groq
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY", ""))
+        completion = client.chat.completions.create(
+            model="meta-llama/llama-prompt-guard-2-86m",
+            messages=[{"role": "user", "content": text}],
+            temperature=1, max_completion_tokens=1, top_p=1, stream=False, stop=None
+        )
+        guard_res = completion.choices[0].message.content.strip().lower()
+        if "unsafe" in guard_res:
+            return jsonify({"error": "Unsafe or malicious input detected."}), 400
+    except Exception as e:
+        print(f"Prompt Guard Warning: {e}")
     age      = int(d.get("age",30)); gender = d.get("gender","Male")
     fever    = float(d.get("fever",37.0))
     sys_bp   = int(d.get("systolic_bp",120)); dia_bp = int(d.get("diastolic_bp",80))
@@ -275,6 +290,35 @@ def api_analyze_report():
     file_bytes = f.read()
     result = analyze_report(file_bytes, f.filename, f.content_type or "")
     return jsonify(result)
+
+# ── Chatbot Features ─────────────────────────────────────────────────────────
+@app.route("/chat")
+@login_required
+def chat():
+    from database.db import get_chat_history
+    history = get_chat_history(session["user_id"], limit=50)
+    return render_template("chatbot.html", user=get_user(session["user_id"]), history=json.dumps(history))
+
+@app.route("/api/chat", methods=["POST"])
+@login_required
+def api_chat():
+    from chatbot_service import generate_chat_response
+    user_message = request.form.get("message", "").strip()
+    if not user_message:
+        return jsonify({"error": "Message is required."}), 400
+        
+    extracted_report = None
+    if "report" in request.files:
+        f = request.files["report"]
+        if f.filename:
+            file_bytes = f.read()
+            result = analyze_report(file_bytes, f.filename, f.content_type or "")
+            if "raw_text" in result and result["raw_text"]:
+                extracted_report = result["raw_text"] + "\n\nML Insights: " + result.get("symptom_summary", "")
+                
+    # Generate reply
+    response_text = generate_chat_response(session["user_id"], user_message, extracted_report)
+    return jsonify({"response": response_text})
 
 if __name__ == "__main__":
     init_db()

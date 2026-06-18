@@ -4,7 +4,7 @@
 <div class="ef-banner fade-up-2" style="margin-bottom:20px">
   <div style="font-size:52px;margin-bottom:10px;animation:float 2s ease-in-out infinite">🚨</div>
   <div style="font-family:var(--fh);font-weight:800;color:var(--red);font-size:clamp(18px,4vw,28px);margin-bottom:6px">MEDICAL EMERGENCY</div>
-  <p style="color:#FCA5A5;font-size:15px;max-width:460px;margin:0 auto 22px;line-height:1.7">If someone is in immediate danger, call emergency services NOW. Do not wait for AI assessment.</p>
+  <p style="color:var(--red-d);font-size:15px;max-width:460px;margin:0 auto 22px;line-height:1.7">If someone is in immediate danger, call emergency services NOW. Do not wait for AI assessment.</p>
   <div style="font-family:var(--fh);font-weight:800;font-size:clamp(48px,12vw,80px);color:var(--red);letter-spacing:-2px;line-height:1;margin-bottom:16px">112</div>
   <div class="grid-2" style="max-width:380px;margin:0 auto;gap:12px">
     <a href="tel:112" class="call-btn call-red">📞 Call 112</a>
@@ -14,9 +14,9 @@
 <div class="grid-2 fade-up-3" style="margin-bottom:20px">
   <div class="card">
     <div class="card-title">📞 Emergency Numbers (India)</div>
-    {% for label,num,c in [("🚨 National Emergency","112","#EF4444"),("🚑 Ambulance","102","#F97316"),("🚒 Fire","101","#F59E0B"),("👮 Police","100","#0EA5E9"),("☎ Disaster","108","#8B5CF6"),("💊 Poison","1800-116-117","#10B981")] %}
-    <a href="tel:{{ num }}" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);margin-bottom:8px;transition:background .2s" onmouseenter="this.style.background='rgba(255,255,255,.06)'" onmouseleave="this.style.background='rgba(255,255,255,.03)'">
-      <span style="color:#CBD5E1;font-size:13px">{{ label }}</span>
+    {% for label,num,c in [("🚨 National Emergency","112","#EF4444"),("🚑 Ambulance","102","#F97316"),("🚒 Fire","101","#F59E0B"),("👮 Police","100","var(--blue)"),("☎ Disaster","108","#8B5CF6"),("💊 Poison","1800-116-117","#10B981")] %}
+    <a href="tel:{{ num }}" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);margin-bottom:8px;transition:background .2s" onmouseenter="this.style.background='rgba(0,0,0,.05)'" onmouseleave="this.style.background='var(--bg3)'">
+      <span style="color:var(--t2);font-size:13px">{{ label }}</span>
       <span style="font-family:var(--fh);font-weight:800;color:{{ c }};font-size:18px">{{ num }}</span>
     </a>
     {% endfor %}

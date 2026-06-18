@@ -6,30 +6,30 @@
   cursor:pointer;background:rgba(14,165,233,.03);transition:all .3s;position:relative}
 .upload-zone:hover,.upload-zone.dragover{border-color:rgba(14,165,233,.7);background:rgba(14,165,233,.07)}
 .upload-zone.has-file{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.05)}
-.file-preview{display:none;margin-top:14px;padding:14px;background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.1);border-radius:10px}
+.file-preview{display:none;margin-top:14px;padding:14px;background:rgba(0,0,0,.02);
+  border:1px solid rgba(0,0,0,.15);border-radius:10px}
 .file-preview.show{display:block}
 .report-section{display:none;margin-top:20px;animation:fadeUp .4s ease}
 .report-section.show{display:block}
 .lab-table{width:100%;border-collapse:collapse}
-.lab-table th{color:#64748B;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+.lab-table th{color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.08em;
   padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.07)}
-.lab-table td{padding:9px 12px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04)}
+.lab-table td{padding:9px 12px;font-size:13px;border-bottom:1px solid rgba(0,0,0,.02)}
 .lab-table tr:hover td{background:rgba(255,255,255,.02)}
 .val-high{color:#EF4444;font-weight:700}
 .val-low{color:#F59E0B;font-weight:700}
 .val-normal{color:#10B981;font-weight:600}
 .flag-badge-high{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);
-  color:#FCA5A5;border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
+  color:var(--red-d);border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
 .flag-badge-low{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);
-  color:#FCD34D;border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
-.tab-btn{padding:9px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.08);
-  background:transparent;color:#64748B;font-family:'DM Sans',sans-serif;font-size:14px;
+  color:var(--yellow);border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
+.tab-btn{padding:9px 18px;border-radius:10px;border:1px solid rgba(0,0,0,.06);
+  background:transparent;color:var(--t3);font-family:'DM Sans',sans-serif;font-size:14px;
   font-weight:500;cursor:pointer;transition:all .2s}
-.tab-btn.active{background:rgba(14,165,233,.15);border-color:#0EA5E9;color:#38BDF8}
+.tab-btn.active{background:rgba(14,165,233,.15);border-color:var(--blue);color:var(--blue-d)}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
-.scan-thumb{max-width:100%;max-height:220px;border-radius:10px;border:1px solid rgba(255,255,255,.1);
+.scan-thumb{max-width:100%;max-height:220px;border-radius:10px;border:1px solid rgba(0,0,0,.15);
   object-fit:contain;background:#0A0F1E}
 .hint-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(139,92,246,.1);
   border:1px solid rgba(139,92,246,.3);color:#C4B5FD;border-radius:20px;
@@ -50,8 +50,8 @@
 <!-- Analyzing overlay -->
 <div class="analyzing-overlay" id="overlay">
   <div class="pulse-ring"></div>
-  <div style="font-family:'Sora',sans-serif;font-weight:700;color:#F1F5F9;font-size:18px;margin-top:24px" id="overlay-msg">Analyzing…</div>
-  <div style="color:#64748B;font-size:13px;margin-top:8px" id="overlay-sub">Please wait</div>
+  <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--text);font-size:18px;margin-top:24px" id="overlay-msg">Analyzing…</div>
+  <div style="color:var(--t3);font-size:13px;margin-top:8px" id="overlay-sub">Please wait</div>
 </div>
 
 <div class="topbar fade-up">
@@ -81,7 +81,7 @@
       <textarea id="symptoms" class="form-input" style="min-height:120px"
         placeholder="e.g. Severe headache for 3 days, high fever 39.5°C, stiff neck, sensitivity to light and sound, vomiting..."></textarea>
       <div id="ek-alert" class="alert alert-danger" style="display:none;margin-top:8px">
-        🚨 Emergency symptoms detected — <a href="/emergency" style="color:#FCA5A5;font-weight:700">see emergency info</a> or call <strong>112</strong>
+        🚨 Emergency symptoms detected — <a href="/emergency" style="color:var(--red-d);font-weight:700">see emergency info</a> or call <strong>112</strong>
       </div>
     </div>
 
@@ -107,8 +107,8 @@
 <!-- ── TAB 2: Reports ───────────────────────────────────────────────────── -->
 <div id="tab-reports" class="tab-panel">
   <div class="card">
-    <div style="font-family:'Sora',sans-serif;font-weight:700;color:#F1F5F9;font-size:16px;margin-bottom:6px">Upload Medical Documents</div>
-    <div style="color:#64748B;font-size:13px;margin-bottom:18px">Supports: Lab reports, X-rays, ECG, MRI, CT Scan, Prescriptions, Discharge Summaries (PDF, JPG, PNG)</div>
+    <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--text);font-size:16px;margin-bottom:6px">Upload Medical Documents</div>
+    <div style="color:var(--t3);font-size:13px;margin-bottom:18px">Supports: Lab reports, X-rays, ECG, MRI, CT Scan, Prescriptions, Discharge Summaries (PDF, JPG, PNG)</div>
 
     <!-- Upload zones -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
@@ -126,13 +126,13 @@
           ondragleave="this.classList.remove('dragover')"
           ondrop="handleDrop(event,'{{ uid }}')">
           <div id="uz-icon-{{ uid }}" style="font-size:28px;margin-bottom:6px">📎</div>
-          <div id="uz-label-{{ uid }}" style="color:#64748B;font-size:13px">Click or drag file here</div>
+          <div id="uz-label-{{ uid }}" style="color:var(--t3);font-size:13px">Click or drag file here</div>
           <input type="file" id="fi-{{ uid }}" style="display:none" accept="{{ accept }}"
             onchange="handleFile('{{ uid }}',this)"/>
         </div>
         <div class="file-preview" id="fp-{{ uid }}">
           <img id="img-{{ uid }}" style="display:none" class="scan-thumb"/>
-          <div id="fname-{{ uid }}" style="color:#94A3B8;font-size:12px;margin-top:6px"></div>
+          <div id="fname-{{ uid }}" style="color:var(--t2);font-size:12px;margin-top:6px"></div>
         </div>
       </div>
       {% endfor %}
@@ -155,8 +155,8 @@
 <!-- ── TAB 3: Combined ─────────────────────────────────────────────────── -->
 <div id="tab-combined" class="tab-panel">
   <div class="card">
-    <div style="font-family:'Sora',sans-serif;font-weight:700;color:#F1F5F9;font-size:16px;margin-bottom:6px">🔬 Combined Multimodal Analysis</div>
-    <div style="color:#64748B;font-size:13px;margin-bottom:18px">
+    <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--text);font-size:16px;margin-bottom:6px">🔬 Combined Multimodal Analysis</div>
+    <div style="color:var(--t3);font-size:13px;margin-bottom:18px">
       Combines your symptom description + vitals + all uploaded reports for the most accurate prediction.
     </div>
 
@@ -168,11 +168,11 @@
     <div id="combined-checklist" style="margin-bottom:18px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px" id="chk-sym">
         <span style="font-size:18px">⬜</span>
-        <span style="color:#64748B;font-size:14px">Symptoms entered</span>
+        <span style="color:var(--t3);font-size:14px">Symptoms entered</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px" id="chk-rep">
         <span style="font-size:18px">⬜</span>
-        <span style="color:#64748B;font-size:14px">Reports uploaded</span>
+        <span style="color:var(--t3);font-size:14px">Reports uploaded</span>
       </div>
     </div>
 
@@ -233,8 +233,8 @@ document.getElementById('symptoms').addEventListener('input',function(){
 function updateCombinedChecklist(){
   const hasSym = document.getElementById('symptoms').value.trim().length > 5;
   const hasRep = uploadedFiles.size > 0;
-  document.getElementById('chk-sym').innerHTML = `<span style="font-size:18px">${hasSym?'✅':'⬜'}</span><span style="color:${hasSym?'#6EE7B7':'#64748B'};font-size:14px">Symptoms entered</span>`;
-  document.getElementById('chk-rep').innerHTML = `<span style="font-size:18px">${hasRep?'✅':'⬜'}</span><span style="color:${hasRep?'#6EE7B7':'#64748B'};font-size:14px">Reports uploaded (${uploadedFiles.size} file${uploadedFiles.size!==1?'s':''})</span>`;
+  document.getElementById('chk-sym').innerHTML = `<span style="font-size:18px">${hasSym?'✅':'⬜'}</span><span style="color:${hasSym?'var(--green)':'var(--t3)'};font-size:14px">Symptoms entered</span>`;
+  document.getElementById('chk-rep').innerHTML = `<span style="font-size:18px">${hasRep?'✅':'⬜'}</span><span style="color:${hasRep?'var(--green)':'var(--t3)'};font-size:14px">Reports uploaded (${uploadedFiles.size} file${uploadedFiles.size!==1?'s':''})</span>`;
 }
 
 // ── File handling ─────────────────────────────────────────────────────────────
@@ -326,15 +326,15 @@ function renderReportCard(uid, result, filename){
 
   const flagsHtml = result.abnormal_flags?.length ? `
     <div style="margin-top:14px">
-      <div style="color:#94A3B8;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:8px">⚠️ Abnormal Values</div>
+      <div style="color:var(--t2);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:8px">⚠️ Abnormal Values</div>
       <table class="lab-table">
         <thead><tr><th>Parameter</th><th>Your Value</th><th>Status</th><th>Normal Range</th></tr></thead>
         <tbody>
           ${result.abnormal_flags.map(f=>`<tr>
-            <td style="color:#CBD5E1;font-weight:500">${f.parameter}</td>
+            <td style="color:var(--t2);font-weight:500">${f.parameter}</td>
             <td class="${f.status==='HIGH'?'val-high':'val-low'}">${f.value}</td>
             <td><span class="flag-badge-${f.status.toLowerCase()}">${f.status}</span></td>
-            <td style="color:#64748B">${f.normal}</td>
+            <td style="color:var(--t3)">${f.normal}</td>
           </tr>`).join('')}
         </tbody>
       </table>
@@ -342,14 +342,14 @@ function renderReportCard(uid, result, filename){
 
   const hintsHtml = result.disease_hints?.length ? `
     <div style="margin-top:12px">
-      <div style="color:#94A3B8;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:6px">🔍 Keywords Found</div>
+      <div style="color:var(--t2);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:6px">🔍 Keywords Found</div>
       ${result.disease_hints.map(h=>`<span class="hint-chip">🦠 ${h.category}</span>`).join('')}
     </div>` : '';
 
   const textPreview = result.raw_text ? `
     <details style="margin-top:12px">
-      <summary style="color:#64748B;font-size:12px;cursor:pointer;list-style:none">📝 View extracted text ▼</summary>
-      <div style="margin-top:8px;padding:12px;background:rgba(0,0,0,.3);border-radius:8px;font-family:monospace;font-size:11px;color:#64748B;line-height:1.6;white-space:pre-wrap;max-height:200px;overflow-y:auto">${result.raw_text.slice(0,1200)}</div>
+      <summary style="color:var(--t3);font-size:12px;cursor:pointer;list-style:none">📝 View extracted text ▼</summary>
+      <div style="margin-top:8px;padding:12px;background:rgba(0,0,0,.3);border-radius:8px;font-family:monospace;font-size:11px;color:var(--t3);line-height:1.6;white-space:pre-wrap;max-height:200px;overflow-y:auto">${result.raw_text.slice(0,1200)}</div>
     </details>` : '';
 
   box.style.display = 'block';
@@ -437,7 +437,7 @@ function buildSymptomPayload(sym){
 // ── Render final results ──────────────────────────────────────────────────────
 function renderFinalResults(d, abnormalFlags, reportTypes){
   document.getElementById('final-results').style.display='block';
-  const sc=SEV_COL[d.severity]||'#0EA5E9';
+  const sc=SEV_COL[d.severity]||'var(--blue)';
 
   // Emergency
   const eBox=document.getElementById('emer-box');
@@ -446,10 +446,10 @@ function renderFinalResults(d, abnormalFlags, reportTypes){
     eBox.innerHTML=`<div class="card" style="background:rgba(220,38,38,.07);border:2px solid #DC2626;text-align:center;padding:22px">
       <div style="font-size:40px;margin-bottom:8px">🚨</div>
       <div style="font-family:'Sora',sans-serif;font-weight:800;color:#EF4444;font-size:20px;margin-bottom:6px">Emergency Detected</div>
-      <p style="color:#FCA5A5;font-size:13px;margin-bottom:14px">Keywords: <strong>${d.emergency_keywords.join(', ')}</strong></p>
+      <p style="color:var(--red-d);font-size:13px;margin-bottom:14px">Keywords: <strong>${d.emergency_keywords.join(', ')}</strong></p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <a href="tel:112" class="btn btn-danger btn-sm">📞 Call 112</a>
-        <a href="/emergency" class="btn btn-outline btn-sm" style="border-color:#DC2626;color:#FCA5A5">Emergency Info</a>
+        <a href="/emergency" class="btn btn-outline btn-sm" style="border-color:#DC2626;color:var(--red-d)">Emergency Info</a>
       </div></div>`;
   } else eBox.style.display='none';
 
@@ -469,9 +469,9 @@ function renderFinalResults(d, abnormalFlags, reportTypes){
   document.getElementById('primary-box').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
       <div>
-        <div style="color:#64748B;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Primary Diagnosis</div>
-        <div style="font-family:'Sora',sans-serif;font-weight:800;color:#F1F5F9;font-size:24px;margin-bottom:6px">${d.primary_diagnosis}</div>
-        <div style="color:#64748B;font-size:13px">🕐 Follow up: <strong style="color:#CBD5E1">${d.follow_up}</strong></div>
+        <div style="color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Primary Diagnosis</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:800;color:var(--text);font-size:24px;margin-bottom:6px">${d.primary_diagnosis}</div>
+        <div style="color:var(--t3);font-size:13px">🕐 Follow up: <strong style="color:var(--t2)">${d.follow_up}</strong></div>
       </div>
       <span class="badge badge-${d.severity}" style="font-size:14px;padding:10px 20px">${SEV_LABEL[d.severity]||d.severity.toUpperCase()}</span>
     </div>`;
@@ -484,10 +484,10 @@ function renderFinalResults(d, abnormalFlags, reportTypes){
       <table class="lab-table">
         <thead><tr><th>Parameter</th><th>Your Value</th><th>Status</th><th>Normal Range</th></tr></thead>
         <tbody>${abnormalFlags.map(f=>`<tr>
-          <td style="color:#CBD5E1;font-weight:500">${f.parameter}</td>
+          <td style="color:var(--t2);font-weight:500">${f.parameter}</td>
           <td class="${f.status==='HIGH'?'val-high':'val-low'}">${f.value}</td>
           <td><span class="flag-badge-${f.status.toLowerCase()}">${f.status}</span></td>
-          <td style="color:#64748B">${f.normal}</td>
+          <td style="color:var(--t3)">${f.normal}</td>
         </tr>`).join('')}</tbody>
       </table>`;
   } else labBox.style.display='none';
@@ -498,8 +498,8 @@ function renderFinalResults(d, abnormalFlags, reportTypes){
       const cls=c.probability>60?'bar-h':c.probability>30?'bar-m':'bar-l';
       return `<div style="margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-          <span style="color:#CBD5E1;font-size:14px;font-weight:500">${c.name}</span>
-          <span style="color:#64748B;font-size:13px">${c.probability}%</span>
+          <span style="color:var(--t2);font-size:14px;font-weight:500">${c.name}</span>
+          <span style="color:var(--t3);font-size:13px">${c.probability}%</span>
         </div>
         <div class="prog-wrap"><div class="prog-bar ${cls}" style="width:${c.probability}%"></div></div>
       </div>`;}).join('');
@@ -508,23 +508,23 @@ function renderFinalResults(d, abnormalFlags, reportTypes){
   document.getElementById('rec-box').innerHTML=`<div class="card-title">Recommendations</div>`+
     d.recommendations.map(r=>`<div style="display:flex;gap:10px;margin-bottom:10px">
       <span style="color:#10B981;font-size:15px;flex-shrink:0;line-height:1.5">✓</span>
-      <span style="color:#94A3B8;font-size:14px;line-height:1.6">${r}</span></div>`).join('');
+      <span style="color:var(--t2);font-size:14px;line-height:1.6">${r}</span></div>`).join('');
 
   // Doctors
   if(d.doctors?.length){
     document.getElementById('doc-box').innerHTML=`
-      <div style="font-family:'Sora',sans-serif;font-weight:700;color:#F1F5F9;font-size:17px;margin-bottom:12px">Recommended Doctors</div>`+
+      <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--text);font-size:17px;margin-bottom:12px">Recommended Doctors</div>`+
       d.doctors.slice(0,3).map((doc,i)=>{
-        const c=doc.color||'#0EA5E9';
+        const c=doc.color||'var(--blue)';
         const ini=(doc.name||'DR').replace('Dr. ','').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
         return `<div class="doc-card${i===0?' best':''}" style="margin-bottom:10px;${i===0?'border-color:'+c+'50':''}">
           ${i===0?`<div style="font-size:11px;font-weight:700;color:${c};letter-spacing:.06em;margin-bottom:8px">⭐ BEST MATCH</div>`:''}
           <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px">
             <div style="width:46px;height:46px;border-radius:12px;background:${c}22;border:2px solid ${c}44;color:${c};display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:14px;flex-shrink:0">${ini}</div>
             <div style="flex:1">
-              <div style="font-family:'Sora',sans-serif;font-weight:700;color:#F1F5F9;font-size:14px">${doc.name}</div>
+              <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--text);font-size:14px">${doc.name}</div>
               <div style="color:${c};font-size:12px">${doc.specialty||''}</div>
-              <div style="color:#64748B;font-size:12px">${doc.hospital||''} ${doc.district?'· '+doc.district:''}</div>
+              <div style="color:var(--t3);font-size:12px">${doc.hospital||''} ${doc.district?'· '+doc.district:''}</div>
             </div>
             <div style="color:#F59E0B;font-size:13px">★ ${doc.rating}</div>
           </div>

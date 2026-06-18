@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+{% block title %}AI Assistant — MediPredict{% endblock %}
+{% block content %}
+<div class="topbar fade-up">
+    <div>
+      <div class="page-title">AI Diagnostic Assistant</div>
+      <div class="page-sub">Describe your symptoms or upload a lab report for instant analysis</div>
+    </div>
+</div>
+
+<style>
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 180px);
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .msg-bubble {
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 16px;
+        line-height: 1.5;
+        font-size: 14px;
+        word-wrap: break-word;
+    }
+
+    .msg-user {
+        align-self: flex-end;
+        background: var(--blue);
+        color: #fff;
+        border-bottom-right-radius: 4px;
+    }
+
+    .msg-ai {
+        align-self: flex-start;
+        background: #fff;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-bottom-left-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    
+    .msg-ai p { margin: 0 0 8px 0; }
+    .msg-ai p:last-child { margin: 0; }
+    
+    .chat-input-area {
+        padding: 16px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+    }
+
+    .chat-input-box {
+        flex: 1;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    .chat-input-box textarea {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        resize: none;
+        max-height: 120px;
+        min-height: 24px;
+        font-family: inherit;
+        font-size: 14px;
+        color: var(--text);
+        padding: 0;
+        margin: 0;
+    }
+    
+    .file-upload-btn {
+        background: var(--bg3);
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--t2);
+        transition: 0.2s;
+    }
+    .file-upload-btn:hover { background: var(--border2); color: var(--blue); }
+    
+    .send-btn {
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.2s;
+        flex-shrink: 0;
+    }
+    .send-btn:hover { background: var(--blue-d); transform: scale(1.05); }
+    .send-btn:disabled { background: var(--t3); cursor: not-allowed; transform: none; }
+    
+    #file-preview {
+        font-size: 11px;
+        color: var(--t3);
+        background: var(--bg3);
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: none;
+        margin-top: 4px;
+        word-break: break-all;
+    }
+    
+    /* Simple markdown parsing fix for bolding */
+    .msg-ai strong { font-weight: 700; color: var(--text); }
+</style>
+
+<div class="chat-container fade-up-2">
+    <div class="chat-messages" id="chat-messages">
+        <div class="msg-bubble msg-ai">
+            Hello! I am your AI Diagnostic Assistant. I can help you analyze your symptoms or review laboratory reports. <br><br>
+            <strong>How are you feeling today?</strong> You can type your symptoms below or upload a medical report.
+        </div>
+        <!-- History will be injected here -->
+    </div>
+    
+    <div style="padding: 0 20px;">
+        <div id="file-preview">📄 <span id="file-name"></span> <button onclick="clearFile()" style="background:none;border:none;color:var(--red);cursor:pointer;margin-left:5px">✕</button></div>
+    </div>
+    
+    <div class="chat-input-area">
+        <div class="chat-input-box">
+            <input type="file" id="report-file" style="display:none" accept="image/*,application/pdf">
+            <button class="file-upload-btn" onclick="document.getElementById('report-file').click()" title="Attach Medical Report">
+                📎
+            </button>
+            <textarea id="chat-input" placeholder="Describe symptoms or ask a question..." oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
+        </div>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    // Load history
+    const historyData = {{ history|safe }};
+    const chatContainer = document.getElementById("chat-messages");
+    
+    function formatText(text) {
+        // Simple markdown parsing for the AI output
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+    }
+    
+    if(historyData && historyData.length > 0) {
+        historyData.forEach(msg => {
+            const div = document.createElement("div");
+            div.className = `msg-bubble msg-${msg.role === 'user' ? 'user' : 'ai'}`;
+            div.innerHTML = formatText(msg.content);
+            chatContainer.appendChild(div);
+        });
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    }
+
+    const fileInput = document.getElementById("report-file");
+    const filePreview = document.getElementById("file-preview");
+    const fileNameSpan = document.getElementById("file-name");
+    const chatInput = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("send-btn");
+
+    fileInput.addEventListener('change', function() {
+        if(this.files && this.files[0]) {
+            fileNameSpan.textContent = this.files[0].name;
+            filePreview.style.display = 'inline-block';
+        }
+    });
+
+    function clearFile() {
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+        fileNameSpan.textContent = '';
+    }
+
+    chatInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    async function sendMessage() {
+        const text = chatInput.value.trim();
+        const file = fileInput.files[0];
+        
+        if (!text && !file) return;
+
+        // Optimistic UI update
+        const userDiv = document.createElement("div");
+        userDiv.className = "msg-bubble msg-user";
+        let displayHtml = text.replace(/\n/g, '<br>');
+        if(file) displayHtml += `<br><small style="opacity:0.8">📎 ${file.name}</small>`;
+        userDiv.innerHTML = displayHtml;
+        chatContainer.appendChild(userDiv);
+        
+        chatInput.value = '';
+        chatInput.style.height = 'auto';
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        
+        // AI Loading bubble
+        const aiDiv = document.createElement("div");
+        aiDiv.className = "msg-bubble msg-ai";
+        aiDiv.innerHTML = "<span style='color:var(--t3)'>Analyzing...</span>";
+        chatContainer.appendChild(aiDiv);
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        
+        sendBtn.disabled = true;
+
+        const formData = new FormData();
+        if(text) formData.append("message", text);
+        else formData.append("message", "Please analyze this report.");
+        if(file) formData.append("report", file);
+
+        try {
+            const res = await fetch("/api/chat", {
+                method: "POST",
+                body: formData
+            });
+            const data = await res.json();
+            
+            if(data.error) {
+                aiDiv.innerHTML = `<span style="color:var(--red)">Error: ${data.error}</span>`;
+            } else {
+                aiDiv.innerHTML = formatText(data.response);
+            }
+        } catch(e) {
+            aiDiv.innerHTML = '<span style="color:var(--red)">Network error occurred.</span>';
+        }
+        
+        clearFile();
+        sendBtn.disabled = false;
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    }
+</script>
+{% endblock %}

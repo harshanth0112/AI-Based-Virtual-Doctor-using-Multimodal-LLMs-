@@ -58,6 +58,14 @@ def init_db():
             status      TEXT DEFAULT 'Confirmed',
             FOREIGN KEY(user_id) REFERENCES users(id)
         );
+        CREATE TABLE IF NOT EXISTS chat_messages (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id     INTEGER NOT NULL,
+            role        TEXT NOT NULL,
+            content     TEXT NOT NULL,
+            timestamp   TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        );
     """)
     conn.commit(); conn.close()
     print("✅ Database initialized")
@@ -187,3 +195,15 @@ def get_avg_rating(doctor_id):
     ).fetchone()
     conn.close()
     return round(float(row["avg"] or 0), 1), int(row["cnt"] or 0)
+
+def save_chat_message(user_id, role, content):
+    conn = get_conn()
+    conn.execute("INSERT INTO chat_messages (user_id,role,content) VALUES (?,?,?)", (user_id, role, content))
+    conn.commit(); conn.close()
+
+def get_chat_history(user_id, limit=50):
+    conn = get_conn()
+    rows = conn.execute("SELECT * FROM chat_messages WHERE user_id=? ORDER BY id ASC LIMIT ?", (user_id, limit)).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+

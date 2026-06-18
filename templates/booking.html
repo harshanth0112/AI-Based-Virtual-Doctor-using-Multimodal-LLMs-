@@ -3,24 +3,24 @@
 {% block head %}
 <style>
 .search-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.search-bar input,.search-bar select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 14px;color:#E2E8F0;font-family:'DM Sans',sans-serif;font-size:14px;transition:border-color .2s}
-.search-bar input:focus,.search-bar select:focus{outline:none;border-color:#0EA5E9}
+.search-bar input,.search-bar select{background:rgba(0,0,0,.02);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;transition:border-color .2s}
+.search-bar input:focus,.search-bar select:focus{outline:none;border-color:var(--blue)}
 .search-bar input{flex:1;min-width:180px}
 .search-bar select{min-width:150px}
-.doc-card-full{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;transition:all .25s}
-.doc-card-full:hover{background:rgba(255,255,255,.05);transform:translateY(-2px)}
+.doc-card-full{background:var(--bg3);border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:20px;transition:all .25s}
+.doc-card-full:hover{background:rgba(0,0,0,.04);transform:translateY(-2px)}
 .doc-card-full.top{border-color:rgba(14,165,233,.35)}
 .doc-avatar-lg{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:17px;flex-shrink:0}
-.slot-pill{background:rgba(14,165,233,.09);border:1px solid rgba(14,165,233,.25);color:#7DD3FC;border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.slot-pill:hover,.slot-pill.sel{background:rgba(14,165,233,.25);border-color:#0EA5E9}
-.info-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:3px 10px;font-size:11px;color:#94A3B8}
-.filter-tag{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.1);color:#64748B;cursor:pointer;background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
-.filter-tag.on{background:rgba(14,165,233,.15);border-color:#0EA5E9;color:#38BDF8}
+.slot-pill{background:rgba(14,165,233,.09);border:1px solid rgba(14,165,233,.25);color:var(--blue);border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.slot-pill:hover,.slot-pill.sel{background:rgba(14,165,233,.25);border-color:var(--blue)}
+.info-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--t2)}
+.filter-tag{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid rgba(0,0,0,.15);color:var(--t3);cursor:pointer;background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
+.filter-tag.on{background:rgba(14,165,233,.15);border-color:var(--blue);color:var(--blue-d)}
 .review-section{display:none;margin-top:12px}
 .review-section.open{display:block}
 .confirm-box{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:13px;margin-top:10px;display:none}
-.page-btn{width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#94A3B8;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .2s}
-.page-btn:hover,.page-btn.cur{background:rgba(14,165,233,.18);border-color:#0EA5E9;color:#38BDF8}
+.page-btn{width:36px;height:36px;border-radius:8px;border:1px solid rgba(0,0,0,.15);background:transparent;color:var(--t2);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .2s}
+.page-btn:hover,.page-btn.cur{background:rgba(14,165,233,.18);border-color:var(--blue);color:var(--blue-d)}
 </style>
 {% endblock %}
 
@@ -38,12 +38,12 @@
   {% for b in my_bookings[:3] %}
   <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.18);border-radius:10px;margin-bottom:8px;flex-wrap:wrap;gap:8px">
     <div>
-      <div style="font-weight:600;color:#F1F5F9;font-size:14px">{{ b.doctor_name }}</div>
-      <div style="color:#64748B;font-size:12px">{{ b.specialty }} · {{ b.hospital }}</div>
+      <div style="font-weight:600;color:var(--text);font-size:14px">{{ b.doctor_name }}</div>
+      <div style="color:var(--t3);font-size:12px">{{ b.specialty }} · {{ b.hospital }}</div>
     </div>
     <div style="text-align:right">
-      <div style="color:#6EE7B7;font-size:13px;font-weight:600">{{ b.date }} · {{ b.slot }}</div>
-      <div style="color:#475569;font-size:11px">Ref: <strong>{{ b.booking_ref }}</strong></div>
+      <div style="color:var(--green);font-size:13px;font-weight:600">{{ b.date }} · {{ b.slot }}</div>
+      <div style="color:var(--t4);font-size:11px">Ref: <strong>{{ b.booking_ref }}</strong></div>
     </div>
   </div>
   {% endfor %}
@@ -71,27 +71,27 @@
     </select>
   </div>
   <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-    <span style="color:#64748B;font-size:12px;margin-right:4px">Sort:</span>
+    <span style="color:var(--t3);font-size:12px;margin-right:4px">Sort:</span>
     <button class="filter-tag on" id="s-r" onclick="setSort('r',this)">⭐ Rating</button>
     <button class="filter-tag" id="s-e" onclick="setSort('e',this)">🏆 Experience</button>
     <button class="filter-tag" id="s-f" onclick="setSort('f',this)">💰 Fee ↑</button>
-    <span style="color:#64748B;font-size:12px;margin-left:10px">Min Rating:</span>
+    <span style="color:var(--t3);font-size:12px;margin-left:10px">Min Rating:</span>
     <button class="filter-tag" id="m-0" onclick="setRat(0,this)">All</button>
     <button class="filter-tag" id="m-4" onclick="setRat(4,this)">4.0+</button>
     <button class="filter-tag" id="m-4.5" onclick="setRat(4.5,this)">4.5+</button>
-    <span id="rcount" style="margin-left:auto;color:#64748B;font-size:12px"></span>
+    <span id="rcount" style="margin-left:auto;color:var(--t3);font-size:12px"></span>
   </div>
 </div>
 
 <div style="margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-  <span style="color:#64748B;font-size:13px">Booking for:</span>
+  <span style="color:var(--t3);font-size:13px">Booking for:</span>
   <input id="bname" class="form-input" style="max-width:250px" value="{{ user.full_name }}" placeholder="Patient name"/>
 </div>
 
 <div id="grid" style="display:grid;gap:12px"></div>
-<div id="nores" style="display:none;text-align:center;padding:48px 0;color:#475569">
+<div id="nores" style="display:none;text-align:center;padding:48px 0;color:var(--t4)">
   <div style="font-size:40px;margin-bottom:12px">🔍</div>
-  <div style="font-weight:600;color:#94A3B8;font-size:16px">No doctors found</div>
+  <div style="font-weight:600;color:var(--t2);font-size:16px">No doctors found</div>
   <div style="font-size:13px;margin-top:4px">Try adjusting filters</div>
 </div>
 <div id="pgn" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:18px"></div>
@@ -101,11 +101,11 @@
 <script>
 const ALL = {{ doctors_json|safe }};
 const DMAP = {{ district_map|safe }};
-const SPCOL = {"Cardiologist":"#EF4444","Neurologist":"#8B5CF6","Pulmonologist":"#0EA5E9","Endocrinologist":"#06B6D4","Nephrologist":"#3B82F6","Hepatologist":"#F97316","Infectious Disease":"#10B981","Oncologist":"#EC4899","General Physician":"#94A3B8","Psychiatrist":"#A78BFA","Gastroenterologist":"#F59E0B","Geriatrician":"#34D399","Vascular Surgeon":"#F87171","Haematologist":"#DC2626","Gynaecologist":"#F472B6","Urologist":"#60A5FA"};
+const SPCOL = {"Cardiologist":"#EF4444","Neurologist":"#8B5CF6","Pulmonologist":"var(--blue)","Endocrinologist":"#06B6D4","Nephrologist":"#3B82F6","Hepatologist":"#F97316","Infectious Disease":"#10B981","Oncologist":"#EC4899","General Physician":"var(--t2)","Psychiatrist":"#A78BFA","Gastroenterologist":"#F59E0B","Geriatrician":"#34D399","Vascular Surgeon":"#F87171","Haematologist":"#DC2626","Gynaecologist":"#F472B6","Urologist":"#60A5FA"};
 let filtered=[...ALL], sortKey='r', minRat=0, page=1;
 const PER=10;
 
-function col(sp){return SPCOL[sp]||'#0EA5E9'}
+function col(sp){return SPCOL[sp]||'var(--blue)'}
 function ini(n){return n.replace('Dr. ','').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
 
 function updateDistricts(){
@@ -147,29 +147,30 @@ function render(){
 function card(d,gi){
   const c=col(d.specialty);
   const isTop=gi<3&&page===1;
-  const slots=d.slots.split(', ');
-  const revs=d.reviews||[];
+  const slots=d.slots?d.slots.split(', '):[];
+  let revs=[];
+  try { revs = typeof d.reviews === 'string' ? JSON.parse(d.reviews) : (d.reviews||[]); } catch(e){}
   const revHtml=revs.map(r=>`
-    <div style="padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+    <div style="padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05)">
       <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-        <span style="color:#CBD5E1;font-size:13px;font-weight:600">${r.name}</span>
-        <span style="color:#F59E0B;font-size:11px">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)} <span style="color:#475569">${r.date}</span></span>
+        <span style="color:var(--t2);font-size:13px;font-weight:600">${r.name}</span>
+        <span style="color:#F59E0B;font-size:11px">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)} <span style="color:var(--t4)">${r.date}</span></span>
       </div>
-      <div style="color:#94A3B8;font-size:13px;line-height:1.5">${r.comment}</div>
+      <div style="color:var(--t2);font-size:13px;line-height:1.5">${r.comment}</div>
     </div>`).join('');
   return `<div class="doc-card-full${isTop?' top':''}" id="dc-${d.doctor_id}">
     ${isTop?`<div style="font-size:11px;font-weight:700;color:${c};letter-spacing:.06em;margin-bottom:8px">⭐ TOP RESULT</div>`:''}
     <div style="display:flex;gap:13px;align-items:flex-start;margin-bottom:12px">
       <div class="doc-avatar-lg" style="background:${c}22;border:2px solid ${c}44;color:${c}">${ini(d.name)}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-family:'Sora',sans-serif;font-weight:700;color:#F1F5F9;font-size:15px">${d.name}</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;color:var(--text);font-size:15px">${d.name}</div>
         <div style="color:${c};font-size:12px;margin-top:2px">${d.specialty} · ${d.disease}</div>
-        <div style="color:#64748B;font-size:12px">${d.hospital}</div>
-        <div style="color:#64748B;font-size:11px;margin-top:1px">📍 ${d.district}, ${d.state} · ${d.distance_km}</div>
+        <div style="color:var(--t3);font-size:12px">${d.hospital}</div>
+        <div style="color:var(--t3);font-size:11px;margin-top:1px">📍 ${d.district}, ${d.state} · ${d.distance_km}</div>
       </div>
       <div style="text-align:right;flex-shrink:0">
         <div style="color:#F59E0B;font-weight:700;font-size:14px">★ ${d.rating}</div>
-        <div style="color:#475569;font-size:11px">${d.total_reviews} reviews</div>
+        <div style="color:var(--t4);font-size:11px">${d.total_reviews} reviews</div>
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
@@ -178,14 +179,14 @@ function card(d,gi){
       <span class="info-chip">💰 ₹${d.consultation_fee_inr}</span>
       <span class="info-chip">📞 ${d.phone}</span>
     </div>
-    <div style="color:#475569;font-size:11px;margin-bottom:12px;line-height:1.5">🎓 ${d.degree}</div>
+    <div style="color:var(--t4);font-size:11px;margin-bottom:12px;line-height:1.5">🎓 ${d.degree}</div>
     <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px">
-      <span style="color:#64748B;font-size:12px">Slots:</span>
+      <span style="color:var(--t3);font-size:12px">Slots:</span>
       ${slots.map(s=>`<button class="slot-pill" onclick="selSlot('${d.doctor_id}','${s}',this)">${s.trim()}</button>`).join('')}
       <button class="btn btn-green btn-sm" id="bb-${d.doctor_id}" style="display:none;margin-left:auto;padding:8px 16px" onclick="doBook('${d.doctor_id}','${d.name.replace(/'/g,"\\'")}','${d.hospital.replace(/'/g,"\\'")}','${d.specialty}','${c}')">Book Now</button>
     </div>
     <div class="confirm-box" id="cb-${d.doctor_id}"></div>
-    <button onclick="toggleRev('${d.doctor_id}')" style="background:none;border:none;color:#0EA5E9;font-size:12px;cursor:pointer;padding:4px 0;font-family:'DM Sans',sans-serif">
+    <button onclick="toggleRev('${d.doctor_id}')" style="background:none;border:none;color:var(--blue);font-size:12px;cursor:pointer;padding:4px 0;font-family:'DM Sans',sans-serif">
       💬 ${d.total_reviews} patient reviews ▼
     </button>
     <div class="review-section" id="rv-${d.doctor_id}">${revHtml}</div>
@@ -198,9 +199,9 @@ function pgn(){
   if(pages<=1){el.innerHTML='';return;}
   const s=Math.max(1,page-3),e=Math.min(pages,page+3);
   let h='';
-  if(s>1)h+=`<button class="page-btn" onclick="gp(1)">1</button>${s>2?'<span style="color:#475569;align-self:center">…</span>':''}`;
+  if(s>1)h+=`<button class="page-btn" onclick="gp(1)">1</button>${s>2?'<span style="color:var(--t4);align-self:center">…</span>':''}`;
   for(let i=s;i<=e;i++)h+=`<button class="page-btn${i===page?' cur':''}" onclick="gp(${i})">${i}</button>`;
-  if(e<pages)h+=`${e<pages-1?'<span style="color:#475569;align-self:center">…</span>':''}<button class="page-btn" onclick="gp(${pages})">${pages}</button>`;
+  if(e<pages)h+=`${e<pages-1?'<span style="color:var(--t4);align-self:center">…</span>':''}<button class="page-btn" onclick="gp(${pages})">${pages}</button>`;
   el.innerHTML=h;
 }
 function gp(p){page=p;render();window.scrollTo({top:0,behavior:'smooth'});}
@@ -226,8 +227,8 @@ async function doBook(id,name,hospital,specialty,color){
       const b=d.booking;
       const cb=document.getElementById(`cb-${id}`);
       cb.style.display='block';
-      cb.innerHTML=`<div style="color:#6EE7B7;font-weight:700;font-size:14px;margin-bottom:5px">✅ Appointment Confirmed!</div>
-        <div style="color:#94A3B8;font-size:13px">Booking ID: <strong style="color:${color}">${b.ref}</strong> · ${b.date} · ${slot}</div>`;
+      cb.innerHTML=`<div style="color:var(--green);font-weight:700;font-size:14px;margin-bottom:5px">✅ Appointment Confirmed!</div>
+        <div style="color:var(--t2);font-size:13px">Booking ID: <strong style="color:${color}">${b.ref}</strong> · ${b.date} · ${slot}</div>`;
       showToast(`✓ Booked with ${name} at ${slot}`);
     }
   }catch(e){showToast('Booking failed','error');}

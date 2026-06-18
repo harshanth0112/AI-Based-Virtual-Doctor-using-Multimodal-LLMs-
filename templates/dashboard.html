@@ -12,7 +12,7 @@
 <!-- Stats -->
 <div class="grid-4 fade-up-2" style="margin-bottom:24px">
   {% for icon,num,label,color in [
-    ("🔬", stats.total_consultations, "Consultations", "#0EA5E9"),
+    ("🔬", stats.total_consultations, "Consultations", "var(--blue)"),
     ("⚠️", stats.critical, "High Risk Cases", "#EF4444"),
     ("📅", stats.bookings, "Appointments", "#10B981"),
     ("🦠", total_diseases, "Diseases Covered", "#8B5CF6"),
@@ -37,7 +37,7 @@
       <div class="hist-card sev-{{ c.severity }}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
           <div>
-            <div style="font-family:var(--fh);font-weight:700;color:#F1F5F9;font-size:14px">{{ c.primary_diagnosis }}</div>
+            <div style="font-family:var(--fh);font-weight:700;color:var(--text);font-size:14px">{{ c.primary_diagnosis }}</div>
             <div style="color:var(--t3);font-size:11px;margin-top:3px">{{ c.date }}</div>
           </div>
           <span class="badge badge-{{ c.severity }}">{{ c.severity.upper() }}</span>
@@ -58,7 +58,7 @@
     <div class="card-title">Disease Categories</div>
     {% for cat, diseases in categories.items() %}
     <div style="margin-bottom:14px">
-      <div style="font-size:13px;font-weight:600;color:#CBD5E1;margin-bottom:6px">{{ cat }}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px">{{ cat }}</div>
       <div style="display:flex;flex-wrap:wrap;gap:5px">
         {% for d in diseases %}
         <span style="background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.18);
@@ -81,11 +81,11 @@
     {% endif %}
     {% if user.allergies %}
     <div><div style="color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Known Allergies</div>
-    <div style="color:#FCD34D;font-size:14px;margin-top:4px">⚠ {{ user.allergies }}</div></div>
+    <div style="color:var(--yellow);font-size:14px;margin-top:4px">⚠ {{ user.allergies }}</div></div>
     {% endif %}
     {% if user.dob %}
     <div><div style="color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Date of Birth</div>
-    <div style="color:#CBD5E1;font-size:14px;margin-top:4px">{{ user.dob }}</div></div>
+    <div style="color:var(--t2);font-size:14px;margin-top:4px">{{ user.dob }}</div></div>
     {% endif %}
   </div>
 </div>
